@@ -1,0 +1,18 @@
+#!/bin/sh
+
+ncores=2
+totaltime=2
+n=10
+
+bench()
+{
+  echo "######################\n# $1\n######################\n"
+  mpirun -np $2 Rscript $1.r $serialtime $n
+}
+
+serialtime=$(( $totaltime * $ncores ))
+
+bench "foreach" $(( $ncores + 1 ))
+echo "\n"
+
+bench "pbd" $ncores
